@@ -11,6 +11,7 @@
                     <th>Original Name</th>
                     <th>Name</th>
                     <th>Uploaded At</th>
+                    <th>Delete</th>
                     <!-- <th>View by Name</th>
                     <th>View by ID</th> -->
                 </tr>
@@ -25,6 +26,13 @@
                         <td><a href="{{ route('files.img', str_replace('exercise/', '', ['id' => $file->id])) }}">{{ $file->original_name }}</a></td>
                         <td><a href="{{ route('files.show', str_replace('exercise/', '', $file->stored_name)) }}">{{ str_replace('exercise/', '', $file->stored_name) }}</a></td>
                         <td>{{ $file->uploaded_at }}</td>
+                        <td>
+                            <form action="{{ route('files.destroy', $file->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this file?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
                         <!-- <td>
                             <form action="{{ route('files.show', $file->stored_name) }}">
                                 <button type="submit" class="btn btn-primary btn-sm">View by Name</button>

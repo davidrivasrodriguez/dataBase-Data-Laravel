@@ -58,4 +58,17 @@ class FileController extends Controller {
         return redirect()->route('files.index')->with('message', 'File uploaded successfully!');
     }
 
+    public function destroy($id) {
+        $file = File::find($id);
+        if ($file) {
+            $storedName = str_replace('exercise/', '', $file->stored_name);
+            if (file_exists(storage_path('app/private/exercise/' . $storedName))) {
+                unlink(storage_path('app/private/exercise/' . $storedName));
+            }
+            $file->delete();
+            return redirect()->route('files.index')->with('message', 'File deleted successfully!');
+        }
+        abort(404, 'File not found');
+    }
+
 }
